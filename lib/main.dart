@@ -1,3 +1,5 @@
+// ignore_for_file: deprecated_member_use
+
 import 'package:flutter/material.dart';
 
 
@@ -11,10 +13,13 @@ class NotificationSetting {
   });
 }
 //--------------------------------------------------------------------------------------------------
+//Appen börjar här
+
 void main() {
   runApp(MyApp());
 }
 
+// ignore: use_key_in_widget_constructors
 class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
@@ -24,6 +29,7 @@ class MyApp extends StatelessWidget {
   }
 }
 
+// ignore: use_key_in_widget_constructors
 class MainView extends StatelessWidget {
 
   final notifications = [
@@ -39,15 +45,15 @@ class MainView extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.blueGrey[200],
-        // ignore: prefer_const_constructors
-        title: Text(
+
+        title: const Text(
           'TIG169 TODO',        
-          style: const TextStyle(color: Colors.white,fontSize: 24, fontWeight: FontWeight.bold),
+          style: TextStyle(color: Colors.white,fontSize: 24, fontWeight: FontWeight.bold),
           ),
         actions: [
           IconButton(icon: Icon(Icons.more_vert), 
           onPressed: () {
-
+            print('Pressed button');                   //Ändra till nått annat!
           }),
         ], 
       ),
@@ -57,30 +63,20 @@ class MainView extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.start,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            //_appBar(),
             ...notifications.map(buildSingleCheckbox).toList(),
-           // _buildCheckbox(),
           ],
         ),
       ),
       floatingActionButton: FloatingActionButton(
-         onPressed: () {
-         const Icon(Icons.add); 
+        child: Icon(Icons.add),
+        backgroundColor: Colors.blueGrey[200],
+         onPressed: () { 
             Navigator.push(
               context,
               MaterialPageRoute(builder: (context) => SecondView()));
       }),
     ); 
   }
-
-
-  Widget _appBar() {
-    return Container(
-      height: 53,
-      decoration: BoxDecoration(color: Colors.blueGrey[200]),
-      child: Center(child: Text('TIG169 TODO', style: TextStyle(color: Colors.white, fontSize: 24, fontWeight: FontWeight.bold),),)
-      );
-    }
 
   Widget buildSingleCheckbox(NotificationSetting notification) =>
     _buildCheckbox(
@@ -89,6 +85,7 @@ class MainView extends StatelessWidget {
         setState(() {
           final newValue = !notification.value;
           notification.value = newValue;
+                                                  // Skriv en if sats för att få överstruken text vid avbockning!
         });
       },
     );
@@ -96,23 +93,76 @@ class MainView extends StatelessWidget {
   Widget _buildCheckbox({
     required NotificationSetting notification,
     required VoidCallback onClicked, 
-  }) => ListTile(
+
+  }) => ListTile(    
     onTap: onClicked,
-  leading: Checkbox(
+    leading: Checkbox(
         value: notification.value,
         onChanged: (value) => onClicked(),
       ),
       title: Text(
         notification.title, 
-        style: TextStyle(fontSize: 20, fontWeight: FontWeight.normal)),
+        // ignore: prefer_const_constructors
+        style: TextStyle(fontSize: 20, fontWeight: FontWeight.normal), //decoration: TextDecoration.lineThrough),
+                                                                      //'decoration' ska endast finnas om den är avbockad
+        ),  
     );
-
+                                        //Lägg till en delete icon i CheckBoxen!
   void setState(Null Function() param0) {} 
 }
 
+
+//Second View-----------------------------------------------------
+
+// ignore: use_key_in_widget_constructors
 class SecondView extends StatelessWidget {
   Widget build(BuildContext context) {
-    return Scaffold();
+    return Scaffold(
+      appBar: AppBar(
+        backgroundColor: Colors.blueGrey[200],
+      // ignore: prefer_const_constructors
+      title: Text(
+          'TIG169 TODO',        
+          style: const TextStyle(color: Colors.white,fontSize: 24, fontWeight: FontWeight.bold),
+          ),
+      ),
+      body: Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.start,
+          children: [
+            _textBox(),
+            _icon(),
+          ],
+          
+        ),
+      ),
+    );
+  }
+
+  Widget _textBox() {
+    return 
+     Padding(
+          padding: EdgeInsets.symmetric(horizontal: 8, vertical: 30),
+          child: TextField(
+            decoration: InputDecoration(
+              border: OutlineInputBorder(),
+              hintText: 'What are you going to do?',
+            ),
+          ),
+        );
+
+  }
+  Widget _icon() {
+    return Center(
+         child: RaisedButton.icon(
+          onPressed: (
+                                      //Add the text from _textBox to 'final notifications'
+          ) {},
+          icon: Icon(Icons.add),
+          label: Text('ADD'),
+          color: Colors.blueGrey[50],
+        ),     
+    );
   }
 }
 
