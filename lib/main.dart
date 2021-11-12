@@ -38,26 +38,20 @@ class MainView extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        backgroundColor: Colors.blueGrey[200],
         // ignore: prefer_const_constructors
         title: Text(
-          'TIG169 TODO',
+          'TIG169 TODO',        
           style: const TextStyle(color: Colors.white,fontSize: 24, fontWeight: FontWeight.bold),
           ),
         actions: [
           IconButton(icon: Icon(Icons.more_vert), 
           onPressed: () {
-            // 
-            // ----------- Denna ska flyttas!! ----------------------------
-            //
-            Navigator.push(
-              context,
-              MaterialPageRoute(builder: (context) => SecondView()));
-            //
-            //-------------------------------------------------------------
-            //
+
           }),
         ], 
       ),
+
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.start,
@@ -67,9 +61,16 @@ class MainView extends StatelessWidget {
             ...notifications.map(buildSingleCheckbox).toList(),
            // _buildCheckbox(),
           ],
-        ), //Column
-      ), //Center
-    ); //Scaffold 
+        ),
+      ),
+      floatingActionButton: FloatingActionButton(
+         onPressed: () {
+         const Icon(Icons.add); 
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => SecondView()));
+      }),
+    ); 
   }
 
 
