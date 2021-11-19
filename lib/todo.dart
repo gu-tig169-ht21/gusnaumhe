@@ -7,7 +7,7 @@ import 'package:flutter/cupertino.dart';
 
 class Todo {
   String title;
-  bool value;
+  bool value; 
 
   Todo({
     required this.title,
@@ -17,6 +17,14 @@ class Todo {
 
 class TodoList extends ChangeNotifier {
   late List<Todo> _list = [];
+
+/* Filtrering
+  String _filterBy = 'All';
+
+  List<ChristmasCard> get list => _list;
+
+  String get filterBy => _filterBy;
+*/
 
   List<Todo> get list {
     return _list;

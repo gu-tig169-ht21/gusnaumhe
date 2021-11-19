@@ -6,13 +6,12 @@ import 'package:my_first_app/main.dart';
 class SecondView extends StatefulWidget {
   final Todo notification;
 
-  SecondView(this.notification, void addTodo);
+  SecondView(this.notification); // void addTodo
 
   @override
   State<StatefulWidget> createState() {
     return _SecondViewState(notification);
   }
-
 }
 
 class _SecondViewState extends State<SecondView> {
@@ -26,11 +25,7 @@ class _SecondViewState extends State<SecondView> {
     this.value = thing.value;
 
     _controller = TextEditingController(text: thing.title);
-    _controller.addListener(() {
-      setState(() {
-        title = _controller.text;
-      });
-    });
+
   }
   @override
   void initState() {
@@ -43,7 +38,6 @@ class _SecondViewState extends State<SecondView> {
     _controller.dispose();
     super.dispose();
   }
-
 
   Widget build(BuildContext context) {
     return Scaffold(
@@ -74,18 +68,21 @@ class _SecondViewState extends State<SecondView> {
       child: TextField(
         controller: _controller,
         decoration: InputDecoration(
-          border: OutlineInputBorder(),
-          hintText: 'What are you going to do?'),
-      ), 
-      );
-    }
+            border: OutlineInputBorder(),
+            hintText: 'What are you going to do?'),
+      ),
+    );
+  }
 
   Widget _icon() {
     return Center(
       child: ElevatedButton.icon(
         onPressed: () {
-          Navigator.pop(context, Todo(title: 'title', value: false));
-          },
+          Navigator.pop(
+            context,
+            Todo(title: _controller.text, value: false),
+          );
+        },
         icon: Icon(Icons.add),
         label: Text('ADD'),
         style: ButtonStyle(
@@ -96,4 +93,3 @@ class _SecondViewState extends State<SecondView> {
     );
   }
 }
-
