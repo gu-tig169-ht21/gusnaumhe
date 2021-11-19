@@ -18,18 +18,19 @@ class Todo {
 class TodoList extends ChangeNotifier {
   late List<Todo> _list = [];
 
-/* Filtrering
-  String _filterBy = 'All';
+//FILTRERING
+  int _filterBy = 1; //bytte till int
 
-  List<ChristmasCard> get list => _list;
+  List<Todo> get list => _list;
 
-  String get filterBy => _filterBy;
-*/
+  int get filterBy => _filterBy;
+//SLUTAR HÄR
 
+/*
   List<Todo> get list {
     return _list;
   }
-
+*/
   
 //Lägg till Todo
   void addTodo(Todo notification) {
@@ -43,4 +44,18 @@ class TodoList extends ChangeNotifier {
     notifyListeners();
   }
 
+  //Filtrering
+  void setFilterBy(int filterBy) {
+    this._filterBy = filterBy;
+    notifyListeners();
+  }
+
+  List<Todo>?_filterList(list, filterBy){
+    if (filterBy == 1) return list;
+    if (filterBy == 2)
+    return list.where((list) => list.value == true).toList;
+    if (filterBy == 3)
+    return list.where((list) => list.vakue == false).toList;
+    return null;
+  }
 }

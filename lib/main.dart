@@ -9,6 +9,7 @@ import 'todo.dart';
 //Appen börjar här
 
 void main() {
+  var
   runApp(ChangeNotifierProvider(
       create: (context) => (TodoList()),
       child: MaterialApp(title: 'To do', home: MainView())));
@@ -21,7 +22,7 @@ class MainView extends StatefulWidget {
 }
 
 class _MainViewState extends State<MainView> {
-  var filterSetting = 'all';
+ // var filterSetting = 'all';
 
   get value => null;
   //----------------------------------------
@@ -38,6 +39,9 @@ class _MainViewState extends State<MainView> {
         ),
         actions: [
           PopupMenuButton(
+            onSelected: (value) {
+              Provider.of<TodoList>(context, listen: false).setFilterBy(value);
+            },
             itemBuilder: (context) => [
               PopupMenuItem(
                 child: Text("All"),
@@ -57,7 +61,7 @@ class _MainViewState extends State<MainView> {
       ),
       body: Consumer<TodoList>(
         builder: (context, state, child) => _list(
-          getFilteredList(state.list, filterSetting),
+          _filterList(state.list, state.filterBy),
         ),
       ),
       floatingActionButton: FloatingActionButton(
@@ -79,13 +83,7 @@ class _MainViewState extends State<MainView> {
     );
   }
 
-  List getFilteredList(allItem, settings) {
-    if (settings == "All") return allItem;
-    if (settings == "Done") {
-      return [];
-    }
-    return allItem;
-  }
+
 
   Widget _list(title) {
     return ListView.builder(

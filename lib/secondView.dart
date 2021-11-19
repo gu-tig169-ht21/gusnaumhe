@@ -1,3 +1,5 @@
+// ignore_for_file: unnecessary_this, no_logic_in_create_state, use_key_in_widget_constructors
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:my_first_app/todo.dart';
@@ -6,7 +8,7 @@ import 'package:my_first_app/main.dart';
 class SecondView extends StatefulWidget {
   final Todo notification;
 
-  SecondView(this.notification); // void addTodo
+  SecondView(this.notification);
 
   @override
   State<StatefulWidget> createState() {
