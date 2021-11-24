@@ -6,27 +6,27 @@ import 'package:my_first_app/todo.dart';
 import 'package:my_first_app/main.dart';
 
 class SecondView extends StatefulWidget {
-  final Todo notification;
+  final Todo todo;
 
-  SecondView(this.notification);
+  SecondView(this.todo);
 
   @override
   State<StatefulWidget> createState() {
-    return _SecondViewState(notification);
+    return _SecondViewState(todo);
   }
 }
 
 class _SecondViewState extends State<SecondView> {
-  late String title;
+  late String? title;
   late bool value;
 
   late TextEditingController _controller;
 
-  _SecondViewState(Todo thing) {
-    this.title = thing.title;
-    this.value = thing.value;
+  _SecondViewState(Todo todo) {
+    this.title = todo.title;
+    this.value = todo.value;
 
-    _controller = TextEditingController(text: thing.title);
+    _controller = TextEditingController(text: todo.title);
 
   }
   @override

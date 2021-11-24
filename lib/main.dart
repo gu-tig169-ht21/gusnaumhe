@@ -1,6 +1,8 @@
 // ignore_for_file: deprecated_member_use, prefer_const_constructors
 import 'package:flutter/material.dart';
+import 'package:my_first_app/model.dart';
 import 'package:my_first_app/secondView.dart';
+import 'package:my_first_app/todoList.dart';
 import 'package:provider/provider.dart';
 
 import 'todo.dart';
@@ -9,9 +11,9 @@ import 'todo.dart';
 //Appen börjar här
 
 void main() {
-  var
+  var state = MyState();
   runApp(ChangeNotifierProvider(
-      create: (context) => (TodoList()),
+      create: (context) => (MyState()),
       child: MaterialApp(title: 'To do', home: MainView())));
 }
 
@@ -22,8 +24,7 @@ class MainView extends StatefulWidget {
 }
 
 class _MainViewState extends State<MainView> {
- // var filterSetting = 'all';
-
+ 
   get value => null;
   //----------------------------------------
 
@@ -39,8 +40,8 @@ class _MainViewState extends State<MainView> {
         ),
         actions: [
           PopupMenuButton(
-            onSelected: (value) {
-              Provider.of<TodoList>(context, listen: false).setFilterBy(value);
+            onSelected: (int value) {
+              Provider.of<MyState>(context, listen: false).setFilterBy(value);
             },
             itemBuilder: (context) => [
               PopupMenuItem(
@@ -59,10 +60,9 @@ class _MainViewState extends State<MainView> {
           ),
         ],
       ),
-      body: Consumer<TodoList>(
-        builder: (context, state, child) => _list(
-          _filterList(state.list, state.filterBy),
-        ),
+      body: Consumer<MyState>(
+        builder: (context, state, child) => 
+        TodoList(_filterList(state.list, state.filterBy)),
       ),
       floatingActionButton: FloatingActionButton(
           child: const Icon(Icons.add),
@@ -77,66 +77,21 @@ class _MainViewState extends State<MainView> {
               ),
             );
             if (newTodo != null) {
-              Provider.of<TodoList>(context, listen: false).addTodo(newTodo);
+              Provider.of<MyState>(context, listen: false).addTodo(newTodo);
             }
           }),
     );
   }
-
-
-
-  Widget _list(title) {
-    return ListView.builder(
-        itemBuilder: (context, index) => buildSingleCheckbox(title[index]),
-        itemCount: title.length);
+  List<Todo> _filterList(List<Todo> list, int filterBy) {
+    if (filterBy == 1) return list;
+    if (filterBy == 2) {
+      return list.where((Todo todo) => todo.value == true).toList();
+    }
+    if (filterBy == 3) {
+      return list.where((Todo todo) => todo.value == false).toList();
+    }
+    return list;
   }
-
-  //Checkbox
-  Widget buildSingleCheckbox(Todo notification) => _buildCheckbox(
-        notification: notification,
-        onClicked: () {
-          setState(() {
-            final newValue = !notification.value;
-            notification.value = newValue;
-            // Skriv en if sats för att få överstruken text vid avbockning!
-          });
-        },
-      );
-
-  Widget _buildCheckbox({
-    required Todo notification,
-    required VoidCallback onClicked,
-  }) =>
-      Column(
-        children: [
-          ListTile(
-            onTap: onClicked,
-            leading: Checkbox(
-              value: notification.value,
-              onChanged: (value) => onClicked(),
-            ),
-            title: Text(
-              notification.title,
-              style: TextStyle(
-                fontSize: 20,
-                fontWeight: FontWeight.normal,
-
-                decoration:
-                    notification.value ? TextDecoration.lineThrough : null,
-                //'decoration' ska endast finnas om den är avbockad
-              ),
-            ),
-            trailing: IconButton(
-              onPressed: () async {
-                var state = Provider.of<TodoList>(context, listen: false);
-                state.removeTodo(notification);
-              },
-              icon: Icon(Icons.delete),
-            ),
-          ),
-          Divider(
-            thickness: 2,
-          ),
-        ],
-      );
 }
+
+
