@@ -10,15 +10,15 @@ import 'todo.dart';
 //--------------------------------------------------------------------------------------------------
 //Appen börjar här
 
-void main() {
-  var state = MyState();
+void main() async {
+ var state = MyState();
   runApp(ChangeNotifierProvider(
       create: (context) => (MyState()),
       child: MaterialApp(title: 'To do', home: MainView())));
 }
 
 class MainView extends StatefulWidget {
-  MainView({Key? key}) : super(key: key);
+  const MainView({Key? key}) : super(key: key);
   @override
   _MainViewState createState() => _MainViewState();
 }
@@ -68,16 +68,14 @@ class _MainViewState extends State<MainView> {
           child: const Icon(Icons.add),
           backgroundColor: Colors.blueGrey[200],
           onPressed: () async {
-            var newTodo = await Navigator.push(
+            String? todoTitle = await Navigator.push(
               context,
               MaterialPageRoute(
-                builder: (context) => SecondView(
-                  Todo(title: '', value: false),
-                ),
+                builder: (context) => SecondView(),
               ),
             );
-            if (newTodo != null) {
-              Provider.of<MyState>(context, listen: false).addTodo(newTodo);
+            if (todoTitle != null) {
+              Provider.of<MyState>(context, listen: false).addTodo(todoTitle);
             }
           }),
     );

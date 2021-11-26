@@ -1,6 +1,7 @@
 // ignore_for_file: prefer_final_fields
 
 import 'package:flutter/cupertino.dart';
+import 'package:my_first_app/internet.dart';
 import 'package:my_first_app/todo.dart';
 
 class MyState extends ChangeNotifier {
@@ -11,29 +12,34 @@ class MyState extends ChangeNotifier {
 
   int get filterBy => _filterBy;
 
-  
+ Future getList() async {
+   List<Todo> list =await InternetConnection.getTodo();
+   _list = list;
+   notifyListeners();
+ } 
 
 //Filtrering
   void setFilterBy(int filterBy) {
-    this._filterBy = filterBy;
+    _filterBy = filterBy;
     notifyListeners();
   }
 
 //Lägg till Todo
-  void addTodo(Todo todo) {
-    _list.add(todo);
+  void addTodo(String todoTitle) async { 
+    _list = await InternetConnection.addTodo(todoTitle);
     notifyListeners();
   }
 
   //Ta bort Todo
   void removeTodo(Todo todo) async {
-    _list.remove(todo);
+    _list = await InternetConnection.removeTodo(todo.id);
     notifyListeners();
   }
 
-  void setIsDone(Todo todo) {
-    final newValue = !todo.value;
-    todo.value = newValue;
+  void setIsDone(Todo todo) async {
+    _list = await InternetConnection.updateTodo(todo.id.toString());
+    //final newValue = !todo.value;
+    //todo.value = newValue;
     notifyListeners();
   }
 }

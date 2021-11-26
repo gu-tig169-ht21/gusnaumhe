@@ -1,19 +1,30 @@
-// ignore_for_file: prefer_final_fields
-
 import 'dart:core';
 
-import 'package:flutter/cupertino.dart';
 
 class Todo {
+  String id;
   String title;
-  bool value; 
+  bool value;
 
   Todo({
+    required this.id,
     required this.title,
     this.value = false,
   });
+
+  static Map<String, dynamic> toJson(Todo todo) {
+    return {
+      'id' : todo.id,
+      'title': todo.title,
+      'value' : todo.value,
+    };
+  }
+
+  static Todo fromJson(Map<String, dynamic> json) {
+    return Todo(
+      id: json['id'], 
+      title: json['title'],
+      value: json['value'],
+      );
+  }
 }
-
-
-
-  

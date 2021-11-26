@@ -1,43 +1,33 @@
-// ignore_for_file: unnecessary_this, no_logic_in_create_state, use_key_in_widget_constructors
-
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:my_first_app/todo.dart';
-import 'package:my_first_app/main.dart';
 
 class SecondView extends StatefulWidget {
-  final Todo todo;
-
-  SecondView(this.todo);
 
   @override
   State<StatefulWidget> createState() {
-    return _SecondViewState(todo);
+    return SecondViewState();
   }
 }
 
-class _SecondViewState extends State<SecondView> {
-  late String? title;
-  late bool value;
+class SecondViewState extends State<SecondView> {
+  late String title;
 
-  late TextEditingController _controller;
+  late TextEditingController textEditingController;
 
-  _SecondViewState(Todo todo) {
-    this.title = todo.title;
-    this.value = todo.value;
+  SecondViewState() {
 
-    _controller = TextEditingController(text: todo.title);
+    textEditingController = TextEditingController(text: '');
 
   }
   @override
   void initState() {
     super.initState();
-    _controller = TextEditingController();
+    textEditingController = TextEditingController();
   }
 
   @override
   void dispose() {
-    _controller.dispose();
+    textEditingController.dispose();
     super.dispose();
   }
 
@@ -68,7 +58,7 @@ class _SecondViewState extends State<SecondView> {
     return Padding(
       padding: EdgeInsets.symmetric(horizontal: 8, vertical: 30),
       child: TextField(
-        controller: _controller,
+        controller: textEditingController,
         decoration: InputDecoration(
             border: OutlineInputBorder(),
             hintText: 'What are you going to do?'),
@@ -82,7 +72,7 @@ class _SecondViewState extends State<SecondView> {
         onPressed: () {
           Navigator.pop(
             context,
-            Todo(title: _controller.text, value: false),
+            textEditingController.text,
           );
         },
         icon: Icon(Icons.add),
