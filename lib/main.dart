@@ -10,7 +10,7 @@ import 'todo.dart';
 //--------------------------------------------------------------------------------------------------
 //Appen börjar här
 
-void main() async {
+void main() async { 
   MyState state = MyState();
   await state.getList();
   runApp(ChangeNotifierProvider(
