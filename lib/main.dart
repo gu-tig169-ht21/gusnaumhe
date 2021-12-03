@@ -11,9 +11,10 @@ import 'todo.dart';
 //Appen börjar här
 
 void main() async {
- var state = MyState();
+  MyState state = MyState();
+  await state.getList();
   runApp(ChangeNotifierProvider(
-      create: (context) => (MyState()),
+      create: (context) => state,
       child: MaterialApp(title: 'To do', home: MainView())));
 }
 

@@ -16,7 +16,7 @@ class Todo {
     return {
       'id' : todo.id,
       'title': todo.title,
-      'value' : todo.value,
+      'done' : todo.value,
     };
   }
 
@@ -24,7 +24,7 @@ class Todo {
     return Todo(
       id: json['id'], 
       title: json['title'],
-      value: json['value'],
+      value: json['done'],
       );
   }
 }

@@ -12,11 +12,11 @@ class MyState extends ChangeNotifier {
 
   int get filterBy => _filterBy;
 
- Future getList() async {
-   List<Todo> list =await InternetConnection.getTodo();
-   _list = list;
-   notifyListeners();
- } 
+  Future getList() async {
+    List<Todo> list = await InternetConnection.getTodo();
+    _list = list;
+    notifyListeners();
+  }
 
 //Filtrering
   void setFilterBy(int filterBy) {
@@ -25,7 +25,7 @@ class MyState extends ChangeNotifier {
   }
 
 //Lägg till Todo
-  void addTodo(String todoTitle) async { 
+  void addTodo(String todoTitle) async {
     _list = await InternetConnection.addTodo(todoTitle);
     notifyListeners();
   }
@@ -37,9 +37,8 @@ class MyState extends ChangeNotifier {
   }
 
   void setIsDone(Todo todo) async {
-    _list = await InternetConnection.updateTodo(todo.id.toString());
-    //final newValue = !todo.value;
-    //todo.value = newValue;
+    todo.value = !todo.value;
+    _list = await InternetConnection.updateTodo(todo);
     notifyListeners();
   }
 }

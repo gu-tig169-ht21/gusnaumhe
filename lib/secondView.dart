@@ -11,8 +11,8 @@ class SecondView extends StatefulWidget {
 
 class SecondViewState extends State<SecondView> {
   late String title;
-
   late TextEditingController textEditingController;
+  final _formKey = GlobalKey<FormState>();
 
   SecondViewState() {
 
@@ -42,7 +42,8 @@ class SecondViewState extends State<SecondView> {
               color: Colors.white, fontSize: 24, fontWeight: FontWeight.bold),
         ),
       ),
-      body: Center(
+      body: Form(
+        key: _formKey,
         child: Column(
           mainAxisAlignment: MainAxisAlignment.start,
           children: [
@@ -57,7 +58,13 @@ class SecondViewState extends State<SecondView> {
   Widget _textBox() {
     return Padding(
       padding: EdgeInsets.symmetric(horizontal: 8, vertical: 30),
-      child: TextField(
+      child: TextFormField(
+        validator: (value) {
+          if(value == null || value.isEmpty) {
+            return 'Please enter text';
+          }
+          return null;
+        },
         controller: textEditingController,
         decoration: InputDecoration(
             border: OutlineInputBorder(),
@@ -70,10 +77,13 @@ class SecondViewState extends State<SecondView> {
     return Center(
       child: ElevatedButton.icon(
         onPressed: () {
+          if (_formKey.currentState!.validate()) {
           Navigator.pop(
             context,
             textEditingController.text,
-          );
+          );    
+          }
+          
         },
         icon: Icon(Icons.add),
         label: Text('ADD'),

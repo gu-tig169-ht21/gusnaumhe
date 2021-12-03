@@ -47,6 +47,8 @@ class TodoList extends StatelessWidget {
               style: TextStyle(
                 fontSize: 20,
                 fontWeight: FontWeight.normal,
+                fontFamily: 'Merriweather',
+                fontStyle: FontStyle.normal,
 
                 decoration: todo.value ? TextDecoration.lineThrough : null,
                 //'decoration' ska endast finnas om den är avbockad
